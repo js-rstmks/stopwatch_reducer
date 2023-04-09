@@ -9,7 +9,13 @@ function reducer(state, action) {
       case 'reset':
         return { isRunning: false, time: 0 };
       case 'tick':
-        return { ...state, time: state.time + 1 };
+        return { ...state, time: state.time + 3 };
+      case 'down':
+        if (state.time > 0) {
+            return { ...state, time: state.time - 1}
+        } else {
+            return state
+        }
       default:
         throw new Error();
     }
@@ -29,12 +35,12 @@ function Stopwatch() {
         console.log(idRef)
       return; 
     }
-    idRef.current = setInterval(() => dispatch({ type: 'tick' }), 1000);
+    idRef.current = setInterval(() => dispatch({ type: 'tick' }), 1000)
     return () => {
-      clearInterval(idRef.current);
-      idRef.current = 0;
-    };
-  }, [state.isRunning]);
+      clearInterval(idRef.current)
+      idRef.current = 0
+    }
+  }, [state.isRunning])
   
   return (
     <div>
@@ -48,6 +54,12 @@ function Stopwatch() {
       <button onClick={() => dispatch({ type: 'reset' })}>
         Reset
       </button>
+
+        <div>
+        <button onClick={() => dispatch({ type: 'down'})} style={{marginTop: '16px'}}>
+            --
+        </button>
+        </div>
     </div>
   );
 }
